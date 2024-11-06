@@ -1,6 +1,7 @@
 class User:
     account_number_counter = 1001
     user_accounts = {}
+    total_loan_given = 0
 
     def __init__(self, name, email, address, account_type):
         self.name = name
@@ -50,6 +51,7 @@ class User:
             return
         if self.loan_count < 2:
             self.balance += amount
+            User.total_loan_given += amount
             self.loan_count += 1
             self.transaction_history.append(f"Loan taken: {amount}")
             print(f"Loan of {amount} granted. Loan count: {self.loan_count}")
@@ -108,10 +110,7 @@ class Admin:
 
     @staticmethod
     def check_total_loan_amount():
-        total_loan = 0
-        for user in User.user_accounts.values():
-            if user.loan_count > 0:
-                total_loan += user.balance
+        total_loan = User.total_loan_given
         print(f"Total loan amount in the bank: {total_loan}")
 
     @staticmethod
